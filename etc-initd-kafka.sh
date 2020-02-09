@@ -10,7 +10,7 @@
 ### END INIT INFO
 
 start() {
-  export KAFKA_OPTS="${KAFKA_OPTS} -javaagent:/home/ubuntu/kafka_2.12-2.4.0/jmx_prometheus_javaagent-0.12.0.jar=9090:/home/ubuntu/kafka_2.12-2.4.0/kafka-0-8-2.yml"
+  export KAFKA_OPTS="${KAFKA_OPTS} -javaagent:/home/ubuntu/kafka_2.12-2.4.0/jmx_prometheus_javaagent-0.12.0.jar=9101:/home/ubuntu/kafka_2.12-2.4.0/kafka-0-8-2.yml"
   /home/ubuntu/kafka_2.12-2.4.0/bin/kafka-server-start.sh -daemon /home/ubuntu/kafka_2.12-2.4.0/config/server.properties
 }
 

@@ -1,6 +1,6 @@
 {
   "variables": {
-    "version": "0.1.0",
+    "version": "0.2.0",
     "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
     "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
     "region": "us-east-1"
@@ -39,20 +39,30 @@
       "destination": "/tmp/kafka"
     },
     {
+      "type": "file",
+      "source": "./etc-initd-prometheus-node-exporter.sh",
+      "destination": "/tmp/prometheus-node-exporter"
+    },
+    {
       "type": "shell",
       "inline": [
-        "curl https://www-eu.apache.org/dist/kafka/2.4.0/kafka_2.12-2.4.0.tgz --output /tmp/kafka_2.12-2.4.0.tgz",
-        "tar xzpf /tmp/kafka_2.12-2.4.0.tgz",
-
         "sudo apt-get update",
         "sudo apt install -y default-jre",
 
+        "curl https://www-eu.apache.org/dist/kafka/2.4.0/kafka_2.12-2.4.0.tgz --output /tmp/kafka_2.12-2.4.0.tgz",
+        "tar xzpf /tmp/kafka_2.12-2.4.0.tgz",
         "sudo cp /tmp/zookeeper /etc/init.d/zookeeper",
         "sudo chmod +x /etc/init.d/zookeeper",
         "sudo systemctl enable zookeeper",
         "sudo cp /tmp/kafka /etc/init.d/kafka",
         "sudo chmod +x /etc/init.d/kafka",
         "sudo systemctl enable kafka",
+
+        "curl -L https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-amd64.tar.gz -o /tmp/node_exporter-0.18.1.linux-amd64.tar.gz",
+        "tar xzpf /tmp/node_exporter-0.18.1.linux-amd64.tar.gz",
+        "sudo cp /tmp/prometheus-node-exporter /etc/init.d/prometheus-node-exporter",
+        "sudo chmod +x /etc/init.d/prometheus-node-exporter",
+        "sudo systemctl enable prometheus-node-exporter",
 
         "curl https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.12.0/jmx_prometheus_javaagent-0.12.0.jar -o /home/ubuntu/kafka_2.12-2.4.0/jmx_prometheus_javaagent-0.12.0.jar",
         "curl https://raw.githubusercontent.com/prometheus/jmx_exporter/master/example_configs/kafka-0-8-2.yml -o /home/ubuntu/kafka_2.12-2.4.0/kafka-0-8-2.yml",
