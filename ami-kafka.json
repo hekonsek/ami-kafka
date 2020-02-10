@@ -1,6 +1,6 @@
 {
   "variables": {
-    "version": "0.2.0",
+    "version": "0.3.0",
     "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
     "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
     "region": "us-east-1"
@@ -10,6 +10,7 @@
       "access_key": "{{user `aws_access_key`}}",
       "ami_name": "kafka-{{user `version`}}",
       "instance_type": "t2.micro",
+      "ami_groups": "all",
       "region": "{{user `region`}}",
       "secret_key": "{{user `aws_secret_key`}}",
       "source_ami_filter": {
